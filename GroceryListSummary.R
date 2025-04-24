@@ -12,7 +12,8 @@ data <- excel_sheets(path) %>%
                           Sheet %in% c("Butter", "Cheese", "Yogurt") ~ "Other non-dairy",
                           Sheet %in% c("Dinner", "Meds") ~ "Misc",
                           TRUE ~ "Food"),
-         Type = factor(Type, levels = c("Beverages", "Food", "Ice Cream", "Other non-dairy", "Misc")))
+         Type = factor(Type, levels = c("Beverages", "Food", "Ice Cream", "Other non-dairy", "Misc"))) %>%
+  mutate(rating = str_to_title(rating))
 
 
 sheet_summ <- data %>%
@@ -54,6 +55,6 @@ tabcount <- ggplot(sheet_summ, aes(x = Sheet, y = Count, fill = Type)) +
   guides(x = guide_axis(angle = 45, title = ""))
 
 ggsave("Tab Count.png", tabcount)
-ggsave("Rating.png", ratings, width = 8, units = c("in"))
+ggsave("Rating.png", ratings, width = 8, height = 4, units = c("in"))
 
 
